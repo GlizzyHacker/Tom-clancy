@@ -2,9 +2,10 @@ import discord
 from discord.ext import commands, tasks
 import insult
 import ping
+import os
+from dotenv import load_dotenv
 
-# Replace with your bot's token
-TOKEN = 'DISCORD-API-KEY'
+TOKEN = os.getenv("DISCORD_API_TOKEN")
 
 intents = discord.Intents.default()
 intents.messages = True

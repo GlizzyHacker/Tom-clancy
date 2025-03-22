@@ -3,31 +3,7 @@ import csv
 
 init = False
 
-words = [
-    # "dummy",
-    # "fucker",
-    # "cunt",
-    # "cuntfucker",
-    # "asshole",
-    # "sniveling",
-    # "sniveling pussy",
-    # "eueueue",
-    # "dumbfuck",
-    # "twat",
-    # "bitch",
-    # "fuck",
-    # "pussy",
-    # "thrower",
-    # "ewwwww",
-    # "gecii",
-    # "kurva szádat",
-    # "fhuu",
-    # "gechi",
-    # "szopo",
-    # "fasz",
-    # "asked",
-    # "ass",
-]
+words = []
 
 finishers = []
 

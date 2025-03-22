@@ -2,7 +2,7 @@ import socket
 import discord
 from discord.ext import commands, tasks
 
-server_adress = "84.0.203.129:25565"
+server_address = "84.0.203.129:25565"
 
 class Ping(commands.Cog):
     def __init__(self, bot):
@@ -14,7 +14,7 @@ class Ping(commands.Cog):
 
     @tasks.loop(minutes=2)
     async def updateServerStatus(self):
-        if (ping(server_adress)):
+        if (ping(server_address)):
             await self.bot.change_presence(activity=discord.Game("Minecraft szerver fut"))
         else:
             await self.bot.change_presence(status=None, activity=None)

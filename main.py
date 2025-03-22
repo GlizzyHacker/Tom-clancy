@@ -2,9 +2,10 @@ import discord
 from discord.ext import commands, tasks
 import insult
 import ping
+import os
+from dotenv import load_dotenv
 
-# Replace with your bot's token
-TOKEN = 'DISCORD-API-KEY'
+TOKEN = os.getenv("DISCORD_API_TOKEN")
 
 intents = discord.Intents.default()
 intents.messages = True
@@ -41,11 +42,9 @@ async def on_message(message):
     global target_username
     global spam_counter
 
-    # Skip processing messages from the bot itself
     if message.author == bot.user:
         return
 
-    # If target_username is set and matches the author of the message, delete it
     if (target_username and message.channel.id == 1302703027840352309 and message.author.id == target_username) or (target_username and message.channel.id == 1311805189623386216 and message.author.id == 231705462100328458):
         print(f"Deleted message: {message.content} from specimen: {message.author}")
         await message.delete()
@@ -53,7 +52,9 @@ async def on_message(message):
             await message.channel.send(f"{message.author.mention} Ahelyett, hogy itt spamelsz inkább menj r6ozni dummy!")
             spam_counter = 0
         else:
-            await message.channel.send(f"{message.author.mention} Erre a csatornára dummy fucker cuntok nem írhatnak! :spawnpeeeek: :emoji_2:")
+            spawnpeek = "<:spawnpeeeek:1254451054095892694>"
+            hogykepzeljuk = "<:hogy_kepzeljuk_ezt:1251288927197724693>"
+            await message.channel.send(f"{message.author.mention} Erre a csatornára dummy fucker cuntok nem írhatnak! {spawnpeek} {hogykepzeljuk}:")
             spam_counter += 1
         return  # Stop further processing for this message
     elif reaction_username and message.author.id == reaction_username:
@@ -61,7 +62,6 @@ async def on_message(message):
             if emoji.id == reaction_id:
                 await message.add_reaction(emoji)
 
-    # Process commands (to allow `!set_target_user` to work)
     await bot.process_commands(message)
 
 @bot.event
@@ -69,6 +69,5 @@ async def on_voice_state_update(member, before, after):
     if target_username and member.id == target_username and after and after.channel.id == 1326920421764890695:
         await member.move_to(None)
         
-# Run the bot
 if __name__ == "__main__":
     bot.run(TOKEN)

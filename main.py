@@ -13,9 +13,9 @@ intents.guilds = True
 bot = commands.Bot(command_prefix="!", intents=intents)
 
 # Variable to store the target username
-target_username = 423773373152231424
-reaction_username = 393797195197054990
-reaction_id = 1314709458202529883
+target_username = 423773373152231424 # Ganajdácsi
+reaction_username = 393797195197054990 # Bálint
+reaction_id = 1314709458202529883 # Vincze ásít emoji
 
 spam_counter = 0
 
@@ -24,7 +24,7 @@ spam_counter = 0
     description="Insults the given user, gaydacsi-style."
 )
 async def insult_command(interaction, target: discord.Member, length:int = 2):
-    generated = insult.generateInsult(length)
+    generated = insult.generate_insult(length,target==target_username)
     await interaction.response.send_message(f"{target.mention} {generated}")
 
 @bot.event
@@ -49,16 +49,16 @@ async def on_message(message):
     if (target_username and message.channel.id == 1302703027840352309 and message.author.id == target_username) or (target_username and message.channel.id == 1311805189623386216 and message.author.id == 231705462100328458):
         print(f"Deleted message: {message.content} from specimen: {message.author}")
         await message.delete()
-        if (spam_counter > 5):
+        if spam_counter > 5:
             await message.channel.send(f"{message.author.mention} Ahelyett, hogy itt spamelsz inkább menj r6ozni dummy!")
             spam_counter = 0
         else:
             await message.channel.send(f"{message.author.mention} Erre a csatornára dummy fucker cuntok nem írhatnak! :spawnpeeeek: :emoji_2:")
             spam_counter += 1
         return  # Stop further processing for this message
-    elif (reaction_username and message.author.id == reaction_username):
+    elif reaction_username and message.author.id == reaction_username:
         for emoji in message.guild.emojis:
-            if (emoji.id == reaction_id):
+            if emoji.id == reaction_id:
                 await message.add_reaction(emoji)
 
     # Process commands (to allow `!set_target_user` to work)
@@ -66,7 +66,7 @@ async def on_message(message):
 
 @bot.event
 async def on_voice_state_update(member, before, after):
-    if (target_username and member.id == target_username and after and after.channel.id == 1326920421764890695):     
+    if target_username and member.id == target_username and after and after.channel.id == 1326920421764890695:
         await member.move_to(None)
         
 # Run the bot

@@ -51,7 +51,9 @@ async def on_message(message):
             await message.channel.send(f"{message.author.mention} Ahelyett, hogy itt spamelsz inkább menj r6ozni dummy!")
             spam_counter = 0
         else:
-            await message.channel.send(f"{message.author.mention} Erre a csatornára dummy fucker cuntok nem írhatnak! :spawnpeeeek: :emoji_2:")
+            spawnpeek = "<:spawnpeeeek:1254451054095892694>"
+            hogykepzeljuk = "<:hogy_kepzeljuk_ezt:1251288927197724693>"
+            await message.channel.send(f"{message.author.mention} Erre a csatornára dummy fucker cuntok nem írhatnak! {spawnpeek} {hogykepzeljuk}:")
             spam_counter += 1
         return
     elif (reaction_username and message.author.id == reaction_username):

@@ -33,5 +33,5 @@ jobs:
           pre_upload: ls
           post_upload: |
                 sudo docker rm -v -f $(docker ps -qa)
-                sudo docker run tomclancy.tar
-                sudo docker container prune
+                sudo docker run -f tomclancy.tar
+                sudo docker container prune -f

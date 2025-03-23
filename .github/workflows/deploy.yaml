@@ -22,7 +22,7 @@ jobs:
           tags: tomclancy:${{ github.ref_name }}
           outputs: type=docker,dest=tomclancy.tar
       - run: tree
-      - uses: mdallasanta/ssh-scp-deploy@{version}
+      - uses: mdallasanta/ssh-scp-deploy@main
         with:
           local: 'tomclancy.tar'
           host: ${{vars.SSH_HOST}} 

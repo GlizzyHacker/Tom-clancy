@@ -17,7 +17,7 @@ jobs:
       - name: Build and export
         uses: docker/build-push-action@v6
         with:
-          tags: tomclancy:${{ github.ref }}
+          tags: tomclancy:${{ github.ref_name }}
           outputs: type=docker,dest=${{ runner.temp }}/tomclancy.tar
       - name: copy file via ssh
         uses: appleboy/scp-action@v0.1.7
@@ -35,6 +35,7 @@ jobs:
           username: ${{ secrets.SSH_USER }}
           password: ${{ secrets.SSH_PRIVATE_KEY }}
           port: 22
-          script: docker stop $(docker ps -a -q) |
-                  docker run tomclancy.tar |
-                  docker container prune
+          script: |
+                docker stop $(docker ps -a -q) 
+                docker run tomclancy.tar
+                docker container prune

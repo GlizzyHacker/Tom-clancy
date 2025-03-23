@@ -32,6 +32,6 @@ jobs:
           key: ${{secrets.SSH_PRIVATE_KEY}}  
           pre_upload: ls
           post_upload: |
-                docker stop $(docker ps -a -q) 
-                docker run tomclancy.tar
-                docker container prune
+                sudo docker rm -v -f $(docker ps -qa)
+                sudo docker run tomclancy.tar
+                sudo docker container prune

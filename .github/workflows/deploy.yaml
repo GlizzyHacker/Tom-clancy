@@ -33,5 +33,6 @@ jobs:
           pre_upload: ls
           post_upload: |
                 sudo docker rm -v -f $(docker ps -qa)
-                sudo docker run -f tomclancy.tar
+                sudo docker load -i tomclancy.tar
+                sudo docker run tomclancy:${{ github.ref_name }}
                 sudo docker container prune -f

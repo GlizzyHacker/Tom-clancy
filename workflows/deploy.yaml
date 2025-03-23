@@ -1,0 +1,23 @@
+name: Deploy
+on:
+  push:
+    branches: [ "main", "3-add-deploy-github-action"]
+
+jobs:
+  deploy:
+    name: Deploy
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@master  
+      - name: 'Create env file'
+        run: |
+          touch .env
+          echo DISCORD_API_TOKEN=${{ secrets.DISCORD_API_KEY }} >> .env
+          cat .env
+      - uses: alex-ac/github-action-ssh-docker-compose@master
+        name: Docker-Compose Remote Deployment
+        with:
+          ssh_host: ${{ env.SSH_HOST }}
+          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
+          ssh_user: ${{ secrets.SSH_USER }}
+          docker_compose_prefix: tomclancy

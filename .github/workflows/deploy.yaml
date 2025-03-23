@@ -22,23 +22,15 @@ jobs:
           tags: tomclancy:${{ github.ref_name }}
           outputs: type=docker,dest=tomclancy.tar
       - run: tree
-      - name: copy file via ssh
-        uses: appleboy/scp-action@v0.1.7
+      - uses: mdallasanta/ssh-scp-deploy@{version}
         with:
-          host: ${{ vars.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          password: ${{ secrets.SSH_PRIVATE_KEY }}
+          local: 'tomclancy.tar'
+          host: ${{vars.SSH_HOST}} 
           port: 22
-          source: "tomclancy.tar"
-          target: "."
-      - name: executing remote ssh commands using password
-        uses: appleboy/ssh-action@v1
-        with:
-          host: ${{ vars.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          password: ${{ secrets.SSH_PRIVATE_KEY }}
-          port: 22
-          script: |
+          user: ${{secrets.SSH_USER}}   
+          password: ${{secrets.SSH_PRIVATE_KEY}}  
+          key: ${{secrets.KEY}} 
+          post_upload: |
                 docker stop $(docker ps -a -q) 
                 docker run tomclancy.tar
                 docker container prune

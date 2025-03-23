@@ -31,6 +31,7 @@ jobs:
           user: ${{secrets.SSH_USER}}   
           password: ${{secrets.SSH_PRIVATE_KEY}}  
           key: ${{secrets.KEY}} 
+          pre_upload: tree
           post_upload: |
                 docker stop $(docker ps -a -q) 
                 docker run tomclancy.tar

@@ -14,10 +14,27 @@ jobs:
           touch .env
           echo DISCORD_API_TOKEN=${{ secrets.DISCORD_API_KEY }} >> .env
           cat .env
-      - uses: alex-ac/github-action-ssh-docker-compose@master
-        name: Docker-Compose Remote Deployment
+      - name: Build and export
+        uses: docker/build-push-action@v6
         with:
-          ssh_host: ${{ vars.SSH_HOST }}
-          ssh_private_key: ${{ secrets.SSH_PRIVATE_KEY }}
-          ssh_user: ${{ secrets.SSH_USER }}
-          docker_compose_prefix: tomclancy
+          tags: tomclancy:${{ github.ref }}
+          outputs: type=docker,dest=${{ runner.temp }}/tomclancy.tar
+      - name: copy file via ssh
+        uses: appleboy/scp-action@v0.1.7
+        with:
+          host: ${{ secrets.HOST }}
+          username: ${{ secrets.USERNAME }}
+          password: ${{ secrets.PASSWORD }}
+          port: ${{ secrets.PORT }}
+          source: ${{ runner.temp }}/tomclancy.tar
+          target: .
+      - name: executing remote ssh commands using password
+        uses: appleboy/ssh-action@v1
+        with:
+          host: ${{ secrets.SSH_HOST }}
+          username: ${{ secrets.SSH_USER }}
+          password: ${{ secrets.SSH_PRIVATE_KEY }}
+          port: 22
+          script: docker stop $(docker ps -a -q) |
+                  docker run tomclancy.tar |
+                  docker container prune

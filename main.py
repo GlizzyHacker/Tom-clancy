@@ -25,7 +25,7 @@ spam_counter = 0
     description="Insults the given user, gaydacsi-style."
 )
 async def insult_command(interaction, target: discord.Member, length:int = 2):
-    generated = insult.generate_insult(length,target.id==target_username)
+    generated = insult.generate_insult(length,target.id==target_user_id)
     await interaction.response.send_message(f"{target.mention} {generated}")
 
 @bot.event
@@ -37,15 +37,15 @@ async def on_ready():
 
 @bot.event
 async def on_message(message):
-    global reaction_username
+    global reaction_user_id
     global reaction_id
-    global target_username
+    global target_user_id
     global spam_counter
 
     if message.author == bot.user:
         return
 
-    if (target_username and message.channel.id == 1302703027840352309 and message.author.id == target_username) or (target_username and message.channel.id == 1311805189623386216 and message.author.id == 231705462100328458):
+    if (target_user_id and message.channel.id == 1302703027840352309 and message.author.id == target_user_id) or (target_user_id and message.channel.id == 1311805189623386216 and message.author.id == 231705462100328458):
         print(f"Deleted message: {message.content} from specimen: {message.author}")
         await message.delete()
         if spam_counter > 5:
@@ -57,7 +57,7 @@ async def on_message(message):
             await message.channel.send(f"{message.author.mention} Erre a csatornára dummy fucker cuntok nem írhatnak! {spawnpeek} {hogykepzeljuk}:")
             spam_counter += 1
         return  # Stop further processing for this message
-    elif reaction_username and message.author.id == reaction_username:
+    elif reaction_user_id and message.author.id == reaction_user_id:
         for emoji in message.guild.emojis:
             if emoji.id == reaction_id:
                 await message.add_reaction(emoji)
@@ -66,7 +66,7 @@ async def on_message(message):
 
 @bot.event
 async def on_voice_state_update(member, before, after):
-    if target_username and member.id == target_username and after and after.channel.id == 1326920421764890695:
+    if target_user_id and member.id == target_user_id and after and after.channel.id == 1326920421764890695:
         await member.move_to(None)
         
 if __name__ == "__main__":

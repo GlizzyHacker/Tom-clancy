@@ -14,8 +14,8 @@ intents.guilds = True
 bot = commands.Bot(command_prefix="!", intents=intents)
 
 # Variable to store the target username
-target_username = 423773373152231424 # Ganajdácsi
-reaction_username = 393797195197054990 # Bálint
+target_user_id = 423773373152231424 # Ganajdácsi
+reaction_user_id = 393797195197054990 # Bálint
 reaction_id = 1314709458202529883 # Vincze ásít emoji
 
 spam_counter = 0
@@ -25,7 +25,7 @@ spam_counter = 0
     description="Insults the given user, gaydacsi-style."
 )
 async def insult_command(interaction, target: discord.Member, length:int = 2):
-    generated = insult.generate_insult(length,target==target_username)
+    generated = insult.generate_insult(length,target.id==target_username)
     await interaction.response.send_message(f"{target.mention} {generated}")
 
 @bot.event

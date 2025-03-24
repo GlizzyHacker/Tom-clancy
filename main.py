@@ -5,6 +5,8 @@ import ping
 import os
 from dotenv import load_dotenv
 
+load_dotenv()
+
 TOKEN = os.getenv("DISCORD_API_TOKEN")
 
 intents = discord.Intents.default()

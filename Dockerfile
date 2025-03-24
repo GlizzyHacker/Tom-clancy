@@ -7,4 +7,7 @@ RUN pip install --no-cache-dir -r requirements.txt
 
 COPY . .
 
+ARG discord_token=token
+ENV DISCORD_API_TOKEN=${discord_token}
+
 CMD [ "python", "./main.py" ]

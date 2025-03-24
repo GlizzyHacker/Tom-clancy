@@ -6,7 +6,7 @@ import ping
 import os
 from dotenv import load_dotenv
 
-TOKEN = "MTMwMjcyNjc4MTc0NDQ0NzYwMA.GwFa5O.hHW9va8_GtXegtWK6zdtM5T7c7dGJWHKHgeNlM"
+TOKEN = os.getenv("DISCORD_API_TOKEN")
 
 intents = discord.Intents.default()
 intents.messages = True
@@ -15,10 +15,10 @@ intents.guilds = True
 bot = commands.Bot(command_prefix="!", intents=intents)
 
 # Variable to store the target username
-target_user_id = 1347650232330092544 # Ganajdácsi
+target_user_id = 423773373152231424 # Ganajdácsi
 reaction_user_id = 393797195197054990 # Bálint
 reaction_id = 1314709458202529883 # Vincze ásít emoji
-nem_dumby_channel_id = 1353364688196468748 # Elég egyértelmű
+nem_dumby_channel_id = 1302703027840352309 # Elég egyértelmű
 
 spam_counter = 0
 

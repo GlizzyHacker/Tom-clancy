@@ -9,16 +9,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@master  
-      - name: 'Create env file'
-        run: |
-          touch .env
-          echo DISCORD_API_TOKEN="${{ secrets.DISCORD_API_KEY }}" >> .env
-          cat .env
       - name: Set up Docker Buildx
         uses: docker/setup-buildx-action@v3
       - name: Build and export
         uses: docker/build-push-action@v6
         with:
+          build-args:  discord_token=${{ secrets.DISCORD_API_KEY }}
           tags: tomclancy:${{ github.ref_name }}
           outputs: type=docker,dest=tomclancy.tar
       - run: tree

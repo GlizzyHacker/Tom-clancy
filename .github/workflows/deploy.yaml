@@ -14,7 +14,7 @@ jobs:
       - name: Build and export
         uses: docker/build-push-action@v6
         with:
-          build-args:  discord_token=${{ secrets.DISCORD_API_KEY }}
+          build-args: discord_token=${{ secrets.DISCORD_API_KEY }}
           tags: tomclancy:${{ github.ref_name }}
           outputs: type=docker,dest=tomclancy.tar
       - run: tree

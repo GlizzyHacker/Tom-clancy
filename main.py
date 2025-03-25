@@ -25,8 +25,9 @@ spam_counter = 0
     description="Insults the given user, gaydacsi-style."
 )
 async def insult_command(interaction, target: discord.Member, length:int = 2):
+    await interaction.response.defer()
     generated = insult.generate_insult(length,target.id==target_user_id)
-    await interaction.response.send_message(f"{target.mention} {generated}")
+    await interaction.followup.send(f"{target.mention} {generated}")
 
 @bot.event
 async def on_ready():

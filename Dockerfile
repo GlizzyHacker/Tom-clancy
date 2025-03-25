@@ -10,4 +10,4 @@ COPY . .
 ARG discord_token=token
 ENV DISCORD_API_TOKEN=${discord_token}
 
-CMD [ "python", "./main.py" ]
+CMD [ "python", "-u", "./main.py" ]

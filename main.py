@@ -1,3 +1,4 @@
+from datetime import datetime, timezone, timedelta
 import discord
 from discord.ext import commands, tasks
 import insult
@@ -19,6 +20,7 @@ bot = commands.Bot(command_prefix="!", intents=intents)
 target_user_id = 423773373152231424 # Ganajdácsi
 reaction_user_id = 393797195197054990 # Bálint
 reaction_id = 1314709458202529883 # Vincze ásít emoji
+nem_dumby_channel_id = 1302703027840352309 # Elég egyértelmű
 
 spam_counter = 0
 
@@ -30,6 +32,46 @@ async def insult_command(interaction, target: discord.Member, length:int = 2):
     await interaction.response.defer()
     generated = insult.generate_insult(length,target.id==target_user_id)
     await interaction.followup.send(f"{target.mention} {generated}")
+
+@bot.tree.command(
+    name="symouse",
+    description="Deletes given number of messages or messages after given date (YYYY-MM-DD HH:MM) from ganajdacsi."
+)
+async def symouse_command(interaction, amount : int = 1, after : str = None):
+    if interaction.channel.id != nem_dumby_channel_id:
+        await interaction.response.send_message("Itt ezt nem használhatod dumby")
+        return
+
+    channel = interaction.channel
+    # interaction.response.send_message() doesn't work if it takes more than 3 seconds
+    await interaction.response.defer()
+
+    messages = []
+    # Deleting very old or too many messages may take a while or just not work idk
+    async for msg in channel.history(limit=None):
+        if msg.author.id == target_user_id:
+            # If both parameters are given it ignores the amount
+            if after is not None:
+                try:
+                    date = datetime.strptime(after, "%Y-%m-%d %H:%M").replace(tzinfo=timezone(timedelta(hours=1))) # Offset-aware time utc+1 timezone
+                except ValueError:
+                    await interaction.followup.send("Rossz dátum formátum dumbass thrower")
+                    return
+                if msg.created_at > date:
+                    messages.append(msg)
+            else:
+                messages.append(msg)
+                if len(messages) >= amount:
+                    break
+
+    if not messages:
+        await interaction.followup.send("Ilyen üzenet nem LÉtezik")
+        return
+
+    await channel.delete_messages(messages)
+    await interaction.followup.send(f"{len(messages)} üzenet törölve")
+    print(f"{len(messages)} üzenet törölve")
+    #print(messages)
 
 @bot.event
 async def on_ready():

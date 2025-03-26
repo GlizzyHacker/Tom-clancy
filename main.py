@@ -1,5 +1,6 @@
 from datetime import datetime, timezone, timedelta
 import discord
+from aiohttp.abc import HTTPException
 from discord.ext import commands, tasks
 import insult
 import ping
@@ -59,8 +60,10 @@ async def symouse_command(interaction, amount : int = 1, after : str = None):
                     return
                 if msg.created_at > date:
                     messages.append(msg)
+                    print(msg.content)
             else:
                 messages.append(msg)
+                print(msg.content)
                 if len(messages) >= amount:
                     break
 
@@ -68,10 +71,15 @@ async def symouse_command(interaction, amount : int = 1, after : str = None):
         await interaction.followup.send("Ilyen üzenet nem LÉtezik")
         return
 
-    await channel.delete_messages(messages)
+    try:
+        await channel.delete_messages(messages)
+    except HTTPException:
+        print("ts pmo")
+        for msg in messages:
+            await msg.delete()
+
     await interaction.followup.send(f"{len(messages)} üzenet törölve")
     print(f"{len(messages)} üzenet törölve")
-    #print(messages)
 
 @bot.event
 async def on_ready():

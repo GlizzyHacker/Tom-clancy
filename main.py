@@ -48,6 +48,7 @@ async def symouse_command(interaction, amount : int = 1, after : str = None):
     await interaction.response.defer()
 
     messages = []
+    msg_contents = []
     # Deleting very old or too many messages may take a while or just not work idk
     async for msg in channel.history(limit=None):
         if msg.author.id == target_user_id:
@@ -60,10 +61,10 @@ async def symouse_command(interaction, amount : int = 1, after : str = None):
                     return
                 if msg.created_at > date:
                     messages.append(msg)
-                    print(msg.content)
+                    msg_contents.append(msg.content)
             else:
                 messages.append(msg)
-                print(msg.content)
+                msg_contents.append(msg.content)
                 if len(messages) >= amount:
                     break
 
@@ -73,13 +74,13 @@ async def symouse_command(interaction, amount : int = 1, after : str = None):
 
     try:
         await channel.delete_messages(messages)
-    except HTTPException:
-        print("ts pmo")
+    except Exception as e:
+        print(e)
         for msg in messages:
             await msg.delete()
 
     await interaction.followup.send(f"{len(messages)} üzenet törölve")
-    print(f"{len(messages)} üzenet törölve")
+    print(f"{len(messages)} messages deleted:\n{msg_contents}")
 
 @bot.event
 async def on_ready():

@@ -1,11 +1,9 @@
 from datetime import datetime, timezone, timedelta
 import discord
-from aiohttp.abc import HTTPException
-from discord.ext import commands, tasks
+from discord.ext import commands
 import insult
 import ping
 import os
-from dotenv import load_dotenv
 
 TOKEN = os.getenv("DISCORD_API_TOKEN")
 
@@ -36,6 +34,13 @@ async def insult_command(interaction, target: discord.Member, length:int = 2):
     description="Deletes given number of messages or messages after given date (YYYY-MM-DD HH:MM) from ganajdacsi."
 )
 async def symouse_command(interaction, amount : int = 1, after : str = None):
+    """
+        Deletes given number of messages or messages after given date (YYYY-MM-DD HH:MM) from ganajdacsi.
+        :param interaction: discord interaction
+        :param amount: amount of messages to delete, defaults to 1
+        :param after: date (YYYY-MM-DD HH:MM) after all messages will be deleted, defaults to None, if given param amount is ignored
+    """
+
     if interaction.channel.id != nem_dumby_channel_id:
         await interaction.response.send_message("Itt ezt nem használhatod dumby")
         return
@@ -52,7 +57,10 @@ async def symouse_command(interaction, amount : int = 1, after : str = None):
             # If both parameters are given it ignores the amount
             if after is not None:
                 try:
-                    date = datetime.strptime(after, "%Y-%m-%d %H:%M").replace(tzinfo=timezone(timedelta(hours=1))) # Offset-aware time utc+1 timezone
+                    # If time is not given set it to midnight
+                    if len(after) == 10:
+                        after += " 00:00"
+                    date = datetime.strptime(after, "%Y-%m-%d %H:%M").replace(tzinfo=timezone(timedelta(hours=1)))  # Offset-aware time utc+1 timezone
                 except ValueError:
                     await interaction.followup.send("Rossz dátum formátum dumbass thrower")
                     return
@@ -69,6 +77,7 @@ async def symouse_command(interaction, amount : int = 1, after : str = None):
         await interaction.followup.send("Ilyen üzenet nem LÉtezik")
         return
 
+    # If some messages are not under 14 days old bulk delete doesn't work, so delete them one by one
     try:
         await channel.delete_messages(messages)
     except Exception as e:

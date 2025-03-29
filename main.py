@@ -4,6 +4,7 @@ from discord.ext import commands
 import insult
 import ping
 import os
+from dotenv import load_dotenv
 
 load_dotenv()
 

@@ -108,6 +108,7 @@ async def on_message(message):
     if message.author == bot.user:
         return
 
+    raise Exception("test")
     if (target_user_id and message.channel.id == 1302703027840352309 and message.author.id == target_user_id) or (target_user_id and message.channel.id == 1311805189623386216 and message.author.id == 231705462100328458):
         print(f"Deleted message: {message.content} from specimen: {message.author}")
         await message.delete()
@@ -134,3 +135,7 @@ async def on_voice_state_update(member, before, after):
         
 if __name__ == "__main__":
     bot.run(TOKEN)
+
+@bot.event
+async def on_command_error(ctx, error):
+    await ctx.channel.send(error)

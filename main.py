@@ -126,3 +126,7 @@ async def on_voice_state_update(member, before, after):
         
 if __name__ == "__main__":
     bot.run(TOKEN)
+
+@bot.event
+async def on_command_error(ctx, error):
+    await ctx.channel.send(error)

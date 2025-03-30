@@ -1,3 +1,4 @@
+import asyncio
 from datetime import datetime, timezone, timedelta
 import discord
 from discord.ext import commands
@@ -98,6 +99,42 @@ async def symouse_command(interaction, amount : int = 1, after : str = None):
 
     await interaction.followup.send(f"{len(messages)} üzenet törölve")
     print(f"{len(messages)} messages deleted:\n{msg_contents}")
+
+@bot.tree.command(
+    name="react",
+    description="Periodically reacts to target user's messages"
+)
+async def react_command(interaction, emoji:str, target: discord.Member, amount:int = 1):
+    await interaction.response.defer(ephemeral=True)
+
+    messages = []
+    added = 0
+    async for msg in interaction.channel.history():
+        if msg.author.id == target.id:
+            emojis = [reaction.emoji for reaction in msg.reactions]
+            if len(msg.reactions) < 20 and emoji not in emojis:
+                messages.append(msg)
+                print(emoji)
+                print(emojis)
+                added += 1
+                if added == amount:
+                    break
+
+    try:
+        await messages[0].add_reaction(emoji)
+    except discord.HTTPException:
+        await interaction.followup.send("Nincs ilyen emoji dumbass")
+        return
+
+    reacted = 0
+    await interaction.followup.send(f"Reagálva {reacted}/{len(messages)} üzenetre")
+    for msg in messages:
+        if len(msg.reactions) == 20:
+            continue
+        await msg.add_reaction(emoji)
+        print("reacted")
+        await asyncio.sleep(5)
+
 
 @bot.event
 async def on_ready():

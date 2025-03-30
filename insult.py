@@ -22,7 +22,12 @@ def init_insult():
     print(", ".join(words))
     print(", ".join(finishers))
 
-def generate_insult(length, sucki):
+def generate_insult(length, sucki:bool=False):
+    """
+    Generates a gaydacsi-style insult with given length.
+    :param length: length of insult
+    :param sucki: True if target is gaydacsi, False otherwise
+    """
     global init
     global words
     global finishers

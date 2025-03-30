@@ -4,6 +4,7 @@ from discord.ext import commands
 import insult
 import ping
 import os
+import handler
 from dotenv import load_dotenv
 
 load_dotenv()
@@ -16,11 +17,11 @@ intents.message_content = True
 intents.guilds = True
 bot = commands.Bot(command_prefix="!", intents=intents)
 
-# Variable to store the target username
-target_user_id = 423773373152231424 # Ganajdácsi
-reaction_user_id = 393797195197054990 # Bálint
-reaction_id = 1314709458202529883 # Vincze ásít emoji
-nem_dumby_channel_id = 1302703027840352309 # Elég egyértelmű
+# Setup constants
+TARGET_USER_ID = 423773373152231424 # Ganajdácsi
+REACTION_USER_ID = 393797195197054990 # Bálint
+REACTION_EMOJI_ID = 1314709458202529883 # Vincze ásít emoji
+NEM_DUMBY_CHAT_ID = 1302703027840352309
 
 spam_counter = 0
 
@@ -29,8 +30,14 @@ spam_counter = 0
     description="Insults the given user, gaydacsi-style."
 )
 async def insult_command(interaction, target: discord.Member, length:int = 2):
+    """
+    Insults the given user, gaydacsi-style.
+    :param interaction: discord.Interaction object
+    :param target: user to insult
+    :param length: length of insult, defaults to 2
+    """
     await interaction.response.defer()
-    generated = insult.generate_insult(length,target.id==target_user_id)
+    generated = insult.generate_insult(length, target.id == TARGET_USER_ID)
     await interaction.followup.send(f"{target.mention} {generated}")
 
 @bot.tree.command(
@@ -40,12 +47,12 @@ async def insult_command(interaction, target: discord.Member, length:int = 2):
 async def symouse_command(interaction, amount : int = 1, after : str = None):
     """
         Deletes given number of messages or messages after given date (YYYY-MM-DD HH:MM) from ganajdacsi.
-        :param interaction: discord interaction
+        :param interaction: discord.Interaction object
         :param amount: amount of messages to delete, defaults to 1
         :param after: date (YYYY-MM-DD HH:MM) after all messages will be deleted, defaults to None, if given param amount is ignored
     """
 
-    if interaction.channel.id != nem_dumby_channel_id:
+    if interaction.channel.id != NEM_DUMBY_CHAT_ID:
         await interaction.response.send_message("Itt ezt nem használhatod dumby")
         return
 
@@ -57,7 +64,7 @@ async def symouse_command(interaction, amount : int = 1, after : str = None):
     msg_contents = []
     # Deleting very old or too many messages may take a while or just not work idk
     async for msg in channel.history(limit=None):
-        if msg.author.id == target_user_id:
+        if msg.author.id == TARGET_USER_ID:
             # If both parameters are given it ignores the amount
             if after is not None:
                 try:
@@ -101,16 +108,15 @@ async def on_ready():
 
 @bot.event
 async def on_message(message):
-    global reaction_user_id
-    global reaction_id
-    global target_user_id
+    global REACTION_USER_ID
+    global REACTION_EMOJI_ID
+    global TARGET_USER_ID
     global spam_counter
 
     if message.author == bot.user:
         return
 
-    raise Exception("test")
-    if (target_user_id and message.channel.id == 1302703027840352309 and message.author.id == target_user_id) or (target_user_id and message.channel.id == 1311805189623386216 and message.author.id == 231705462100328458):
+    if (TARGET_USER_ID and message.channel.id == 1302703027840352309 and message.author.id == TARGET_USER_ID) or (TARGET_USER_ID and message.channel.id == 1311805189623386216 and message.author.id == 231705462100328458):
         print(f"Deleted message: {message.content} from specimen: {message.author}")
         await message.delete()
         if spam_counter > 5:
@@ -122,21 +128,20 @@ async def on_message(message):
             await message.channel.send(f"{message.author.mention} Erre a csatornára dummy fucker cuntok nem írhatnak! {spawnpeek} {hogykepzeljuk}:")
             spam_counter += 1
         return  # Stop further processing for this message
-    elif reaction_user_id and message.author.id == reaction_user_id:
+    elif REACTION_USER_ID and message.author.id == REACTION_USER_ID:
         for emoji in message.guild.emojis:
-            if emoji.id == reaction_id:
+            if emoji.id == REACTION_EMOJI_ID:
                 await message.add_reaction(emoji)
 
     await bot.process_commands(message)
 
 @bot.event
 async def on_voice_state_update(member, before, after):
-    if target_user_id and member.id == target_user_id and after and after.channel.id == 1326920421764890695:
+    if TARGET_USER_ID and member.id == TARGET_USER_ID and after and after.channel.id == 1326920421764890695:
         await member.move_to(None)
         
 if __name__ == "__main__":
+    handler.setup_handler()
+
     bot.run(TOKEN)
 
-@bot.event
-async def on_command_error(ctx, error):
-    await ctx.channel.send(error)

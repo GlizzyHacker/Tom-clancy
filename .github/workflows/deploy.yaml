@@ -14,7 +14,9 @@ jobs:
       - name: Build and export
         uses: docker/build-push-action@v6
         with:
-          build-args: "discord_token=${{ secrets.DISCORD_API_KEY }} webhook_url=${{ secrets.WEBHOOK_URL }}"
+          build-args: 
+            - discord_token=${{ secrets.DISCORD_API_KEY }}
+            - webhook_url=${{ secrets.WEBHOOK_URL }}
           tags: tomclancy:${{ github.ref_name }}
           outputs: type=docker,dest=tomclancy.tar
       - run: tree

@@ -144,7 +144,7 @@ async def react_command(interaction, emoji:str, target: discord.Member, amount:i
         except discord.HTTPException:
             await progress.edit(content="Nincs is ilyen emoji dumbass")
             return
-        await asyncio.sleep(5)
+        await asyncio.sleep(30)
 
     await progress.edit(content="Kész")
     print(f"Reacted {emoji} to {reacted_count}/{len(messages)} messages from {target}")

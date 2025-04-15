@@ -105,36 +105,49 @@ async def symouse_command(interaction, amount : int = 1, after : str = None):
     description="Periodically reacts to target user's messages"
 )
 async def react_command(interaction, emoji:str, target: discord.Member, amount:int = 1):
+    """
+    Reacts given emoji to given number of messages from target user
+    :param interaction: discord.Interaction object
+    :param emoji: emoji to react
+    :param target: target user
+    :param amount: amount of messages to react, defaults to 1
+    """
     await interaction.response.defer(ephemeral=True)
+
+    reaction_limit = 20
 
     messages = []
     added = 0
     async for msg in interaction.channel.history():
-        if msg.author.id == target.id:
-            emojis = [reaction.emoji for reaction in msg.reactions]
-            if len(msg.reactions) < 20 and emoji not in emojis:
+        if msg.author == target and len(msg.reactions) < reaction_limit:
+            bot_already_reacted = False
+            for reaction in msg.reactions:
+                if str(reaction.emoji) == emoji:
+                    async for user in reaction.users():
+                        if user.id == bot.user.id:
+                            bot_already_reacted = True
+            if not bot_already_reacted:
                 messages.append(msg)
-                print(emoji)
-                print(emojis)
                 added += 1
-                if added == amount:
+                if added >= amount:
                     break
 
-    try:
-        await messages[0].add_reaction(emoji)
-    except discord.HTTPException:
-        await interaction.followup.send("Nincs ilyen emoji dumbass")
-        return
-
-    reacted = 0
-    await interaction.followup.send(f"Reagálva {reacted}/{len(messages)} üzenetre")
+    reacted_count = 0
+    progress = await interaction.followup.send(f"reagálva {reacted_count}/{len(messages)} üzenetre")
     for msg in messages:
-        if len(msg.reactions) == 20:
+        if len(msg.reactions) >= reaction_limit:
             continue
-        await msg.add_reaction(emoji)
-        print("reacted")
+        try:
+            await msg.add_reaction(emoji)
+            reacted_count += 1
+            await progress.edit(content=f"reagálva {reacted_count}/{len(messages)} üzenetre")
+        except discord.HTTPException:
+            await progress.edit(content="Nincs is ilyen emoji dumbass")
+            return
         await asyncio.sleep(5)
 
+    await progress.edit(content="Kész")
+    print(f"Reacted {emoji} to {reacted_count}/{len(messages)} messages from {target}")
 
 @bot.event
 async def on_ready():

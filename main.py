@@ -118,7 +118,7 @@ async def react_command(interaction, emoji:str, target: discord.Member, amount:i
 
     messages = []
     added = 0
-    async for msg in interaction.channel.history():
+    async for msg in interaction.channel.history(limit=None):
         if msg.author == target and len(msg.reactions) < reaction_limit:
             bot_already_reacted = False
             for reaction in msg.reactions:

@@ -183,6 +183,16 @@ async def on_message(message):
             if emoji.id == REACTION_EMOJI_ID:
                 await message.add_reaction(emoji)
 
+    if "faszopo" in message.content:
+        try:
+            await message.reply(stickers=[discord.Object(id=1347686845064020071)])
+        except discord.Forbidden:
+            await message.reply("https://cdn.discordapp.com/attachments/1251283088634286183/1342594424168779879/image.png?ex=68035f3e&is=68020dbe&hm=9e4b3a7e8036ad83e415112759e116ffe88e404ab67d8c6829641fba2a15fdae&")
+
+    if message.author.id == TARGET_USER_ID:
+        if "nemértem" in ("".join((message.content.lower()).split(" "))) or "nemertem" in ("".join((message.content.lower()).split(" "))):
+            await message.reply("nem meglepő")
+
     await bot.process_commands(message)
 
 @bot.event

@@ -183,7 +183,7 @@ async def on_message(message):
             if emoji.id == REACTION_EMOJI_ID:
                 await message.add_reaction(emoji)
 
-    if "faszopo" in message.content.lower()W:
+    if "faszopo" in message.content.lower():
         try:
             await message.reply(stickers=[discord.Object(id=1347686845064020071)])
         except discord.Forbidden:

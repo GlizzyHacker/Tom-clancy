@@ -19,7 +19,6 @@ jobs:
             webhook_url=${{ secrets.WEBHOOK_URL }}
           tags: tomclancy:${{ github.ref_name }}
           outputs: type=docker,dest=tomclancy.tar
-      - run: tree
       - uses: mdallasanta/ssh-scp-deploy@main
         with:
           local: './tomclancy.tar'
@@ -28,5 +27,4 @@ jobs:
           port: 22
           user: ${{secrets.SSH_USER}}   
           key: ${{secrets.SSH_PRIVATE_KEY}}  
-          pre_upload: ls
-          post_upload: docker rm -v -f $(docker ps -qa) & sudo docker load -i tomclancy.tar & sudo docker run -d tomclancy:${{ github.ref_name }} & sudo docker image prune -f
+          post_upload: docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q) & sudo docker image prune -f & sudo docker load -i tomclancy.tar & sudo docker run -d tomclancy:${{ github.ref_name }}

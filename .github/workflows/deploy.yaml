@@ -27,4 +27,4 @@ jobs:
           port: 22
           user: ${{secrets.SSH_USER}}   
           key: ${{secrets.SSH_PRIVATE_KEY}}  
-          post_upload: docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q) & sudo docker image prune -f & sudo docker load -i tomclancy.tar & sudo docker run -d tomclancy:${{ github.ref_name }}
+          post_upload: docker stop $(docker ps -a -q) && docker rm $(docker ps -a -q) && sudo docker image prune -f && sudo docker load -i tomclancy.tar && sudo docker run -d tomclancy:${{ github.ref_name }}

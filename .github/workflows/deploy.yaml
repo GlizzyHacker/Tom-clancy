@@ -29,4 +29,4 @@ jobs:
           user: ${{secrets.SSH_USER}}   
           key: ${{secrets.SSH_PRIVATE_KEY}}  
           pre_upload: ls
-          post_upload: sudo docker ps -aq | xargs docker rm -f & sudo docker load -i tomclancy.tar & sudo docker run -d tomclancy:${{ github.ref_name }} & sudo docker image prune -f
+          post_upload: docker rm -v -f $(docker ps -qa) & sudo docker load -i tomclancy.tar & sudo docker run -d tomclancy:${{ github.ref_name }} & sudo docker image prune -f

@@ -1,4 +1,5 @@
 import asyncio
+import random
 from datetime import datetime, timezone, timedelta
 import discord
 from discord.ext import commands
@@ -148,6 +149,26 @@ async def react_command(interaction, emoji:str, target: discord.Member, amount:i
 
     await progress.edit(content="Kész")
     print(f"Reacted {emoji} to {reacted_count}/{len(messages)} messages from {target}")
+
+@bot.tree.context_menu(
+    name="Asked"
+)
+async def asked_command(interaction, message: discord.Message):
+    await interaction.response.send_message("Askedség kiszámítása...")
+
+    if message.author.id != TARGET_USER_ID and random.random() < 0.5:
+        asked = True
+    else:
+        asked = False
+
+    asked_responses = ["Ez most kivételesen asked"]
+    not_asked_responses = ["Seggked", "Kispajtás azt hiszi asked <:konvergencia:1275878090727358484>", "Sát jor máusz asked vagy"]
+
+    await asyncio.sleep(10)
+    try:
+        await message.reply(random.choice(asked_responses)) if asked else await message.reply(random.choice(not_asked_responses))
+    except discord.HTTPException:
+        await interaction.followup.send("Leszarom")
 
 @bot.event
 async def on_ready():

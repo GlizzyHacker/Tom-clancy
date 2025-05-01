@@ -3,7 +3,7 @@ import random
 from datetime import datetime, timezone, timedelta
 import discord
 from discord.ext import commands
-import insult
+import words
 import ping
 import os
 import handler
@@ -39,7 +39,7 @@ async def insult_command(interaction, target: discord.Member, length:int = 2):
     :param length: length of insult, defaults to 2
     """
     await interaction.response.defer()
-    generated = insult.generate_insult(length, target.id == TARGET_USER_ID)
+    generated = words.generate_insult(length, target.id == TARGET_USER_ID)
     await interaction.followup.send(f"{target.mention} {generated}")
 
 @bot.tree.command(
@@ -161,12 +161,9 @@ async def asked_command(interaction, message: discord.Message):
     else:
         asked = False
 
-    asked_responses = ["Ez most kivételesen asked"]
-    not_asked_responses = ["Seggked", "Kispajtás azt hiszi asked <:konvergencia:1275878090727358484>", "Sát jor máusz asked vagy"]
-
     await asyncio.sleep(10)
     try:
-        await message.reply(random.choice(asked_responses)) if asked else await message.reply(random.choice(not_asked_responses))
+        await message.reply(words.generate_response(asked))
     except discord.HTTPException:
         await interaction.followup.send("Leszarom")
 

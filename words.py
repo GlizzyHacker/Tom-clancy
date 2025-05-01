@@ -4,10 +4,11 @@ import csv
 init = False
 
 words = []
-
 finishers = []
+asked_responses = []
+not_asked_responses = []
 
-def init_insult():
+def init_words():
     global init
 
     random.seed()
@@ -17,10 +18,16 @@ def init_insult():
             if init:
                 words.append(row[0])
                 if row[1]:
-                    finishers.append(row[1])   
+                    finishers.append(row[1])
+                if row[5]:
+                    asked_responses.append(row[5])
+                if row[6]:
+                    not_asked_responses.append(row[6])
             init = True
-    print(", ".join(words))
-    print(", ".join(finishers))
+    print("insults: " + " ".join(words))
+    print("finishers: ", "".join(finishers))
+    print("asked: " + " ".join(asked_responses))
+    print("not_asked: " + " ".join(not_asked_responses))
 
 def generate_insult(length, sucki:bool=False):
     """
@@ -33,7 +40,7 @@ def generate_insult(length, sucki:bool=False):
     global finishers
     
     if not init:
-        init_insult()
+        init_words()
     length = max(1,min(length,len(words)))
     result = set()
     if sucki:
@@ -44,6 +51,13 @@ def generate_insult(length, sucki:bool=False):
 
     return " ".join(result) + " " + finishers[random.randrange(0, len(finishers))]
 
+def generate_response(asked: bool):
+    if not init:
+        init_words()
+    if asked:
+        return random.choice(asked_responses)
+    else:
+        return random.choice(not_asked_responses)
 
-if __name__ == "__main__":
-    init_insult()
+if __name__ == "__main__" or __name__ == "words":
+    init_words()

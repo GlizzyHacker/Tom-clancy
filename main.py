@@ -175,10 +175,12 @@ async def asked_command(interaction, target: discord.Member):
         await interaction.response.send_message("Ezt faszopok nem használhatják <:kispajtas:1370135683456434246>")
         return
 
+    await interaction.guild.me.edit(nick=interaction.user.nick)
     await interaction.response.send_message("Yes king",ephemeral=True)
     mention = await interaction.channel.send(target.mention)
     await asyncio.sleep(0.5)
     await mention.delete()
+    await interaction.guild.me.edit(nick=interaction.guild.me.name)
 
 
 @bot.event

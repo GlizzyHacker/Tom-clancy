@@ -167,6 +167,20 @@ async def asked_command(interaction, message: discord.Message):
     except discord.HTTPException:
         await interaction.followup.send("Leszarom")
 
+@bot.tree.context_menu(
+    name="Ghostping"
+)
+async def asked_command(interaction, target: discord.Member):
+    if interaction.user.id == TARGET_USER_ID:
+        await interaction.response.send_message("Ezt faszopok nem használhatják <:kispajtas:1370135683456434246>")
+        return
+
+    await interaction.response.send_message("Yes king",ephemeral=True)
+    mention = await interaction.channel.send(target.mention)
+    await asyncio.sleep(0.5)
+    await mention.delete()
+
+
 @bot.event
 async def on_ready():
     await bot.add_cog(ping.Ping(bot))

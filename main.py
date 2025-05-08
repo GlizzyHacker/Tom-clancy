@@ -175,7 +175,8 @@ async def asked_command(interaction, target: discord.Member):
         await interaction.response.send_message("Ezt faszopok nem használhatják <:kispajtas:1370135683456434246>")
         return
 
-    await interaction.guild.me.edit(nick=interaction.user.nick)
+    name = interaction.user.nick if interaction.user.nick else interaction.user.name
+    await interaction.guild.me.edit(nick=name)
     await interaction.response.send_message("Yes king",ephemeral=True)
     mention = await interaction.channel.send(target.mention)
     await asyncio.sleep(0.5)

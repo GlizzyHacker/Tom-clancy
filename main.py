@@ -235,18 +235,6 @@ async def on_voice_state_update(member, before, after):
     if TARGET_USER_ID and member.id == TARGET_USER_ID and after and after.channel.id == 1326920421764890695:
         await member.move_to(None)
         
-@bot.event
-async def on_typing(channel, user, when):
-    asyncio.wait(15)
-    if not (await didSendMessageAfter(channel, user, when)):
-        channel.send(f"{user.mention} le se írd")
-
-async def didSendMessageAfter(channel ,user, after):
-    for message in channel.history(after=after):
-        if (message.author == user):
-            return True
-    return False
-
 if __name__ == "__main__":
     handler.setup_handler()
 

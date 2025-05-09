@@ -237,13 +237,13 @@ async def on_voice_state_update(member, before, after):
         
 @bot.event
 async def on_typing(channel, user, when):
-    asyncio.wait(15)
-    if not (await didSendMessageAfter(channel, user, when)):
-        channel.send(f"{user.mention} le se írd")
+    await asyncio.sleep(15)
+    if not (await did_send_message_after(channel, user, when)):
+        await channel.send(f"{user.mention} le se írd")
 
-async def didSendMessageAfter(channel ,user, after):
+async def did_send_message_after(channel, user, after):
     async for message in channel.history(after=after):
-        if (message.author == user):
+        if message.author == user:
             return True
     return False
 

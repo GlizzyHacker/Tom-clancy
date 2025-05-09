@@ -242,7 +242,7 @@ async def on_typing(channel, user, when):
         channel.send(f"{user.mention} le se írd")
 
 async def didSendMessageAfter(channel ,user, after):
-    for message in channel.history(after=after):
+    async for message in channel.history(after=after):
         if (message.author == user):
             return True
     return False

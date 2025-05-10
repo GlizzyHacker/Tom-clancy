@@ -168,7 +168,7 @@ async def asked_command(interaction, message: discord.Message):
         await interaction.followup.send("Leszarom")
 
 @bot.tree.context_menu(
-    name="Ghostping"
+    name="Ghost ping"
 )
 async def ghostping_command(interaction, target: discord.Member):
     if interaction.user.id == TARGET_USER_ID:

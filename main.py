@@ -170,19 +170,23 @@ async def asked_command(interaction, message: discord.Message):
 @bot.tree.context_menu(
     name="Ghostping"
 )
-async def asked_command(interaction, target: discord.Member):
+async def ghostping_command(interaction, target: discord.Member):
     if interaction.user.id == TARGET_USER_ID:
-        await interaction.response.send_message("Ezt faszopok nem használhatják <:kispajtas:1370135683456434246>")
+        await interaction.response.send_message("Ezt faszopok nem használhatják <:kispajtas:1314704200092881018>")
         return
-
-    name = interaction.user.nick if interaction.user.nick else interaction.user.name
-    await interaction.guild.me.edit(nick=name)
     await interaction.response.send_message("Yes king",ephemeral=True)
-    mention = await interaction.channel.send(target.mention)
-    await asyncio.sleep(0.5)
-    await mention.delete()
-    await interaction.guild.me.edit(nick=interaction.guild.me.name)
 
+    ghost = interaction.user
+    ghostwebhook = await interaction.channel.create_webhook(name="Ghost")
+    message = await ghostwebhook.send(
+        target.mention,
+        username=ghost.display_name,
+        avatar_url=ghost.display_avatar.url,
+        wait=True #For some reason if this line is not here message variable is NoneType, so I can't delete it
+    )
+    await asyncio.sleep(0.5)
+    await message.delete()
+    await ghostwebhook.delete()
 
 @bot.event
 async def on_ready():

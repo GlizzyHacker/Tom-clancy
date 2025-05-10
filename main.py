@@ -168,7 +168,7 @@ async def asked_command(interaction, message: discord.Message):
         await interaction.followup.send("Leszarom")
 
 @bot.tree.context_menu(
-    name="Ghostping"
+    name="Ghost ping"
 )
 async def ghostping_command(interaction, target: discord.Member):
     if interaction.user.id == TARGET_USER_ID:
@@ -176,12 +176,9 @@ async def ghostping_command(interaction, target: discord.Member):
         return
     await interaction.response.send_message("Yes king",ephemeral=True)
 
-    ghost = interaction.user
-    ghostwebhook = await interaction.channel.create_webhook(name="Ghost")
+    ghostwebhook = await interaction.channel.create_webhook(name=interaction.user.display_name,avatar=await interaction.user.display_avatar.read())
     message = await ghostwebhook.send(
         target.mention,
-        username=ghost.display_name,
-        avatar_url=ghost.display_avatar.url,
         wait=True #For some reason if this line is not here message variable is NoneType, so I can't delete it
     )
     await asyncio.sleep(0.5)

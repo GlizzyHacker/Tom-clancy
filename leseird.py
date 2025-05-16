@@ -17,17 +17,17 @@ class UserTypingState:
     async def typed(self, when):
         self.typing_times.append(when)
         if len(self.typing_times) == 1:
-            await self.startCounter()
+            await self.start_counter()
         elif len(self.typing_times) >= LE_SE_IRD_TYPING_TRESHOLD:
             await self.try_respond()
 
-    async def startCounter(self):
+    async def start_counter(self):
         await asyncio.sleep(LE_SE_IRD_DELAY)
         self.counter_done = True
         await self.try_respond()
     
     async def try_respond(self):
-            if (len(self.typing_times) >= LE_SE_IRD_TYPING_TRESHOLD and self.counter_done and not self.responded):
+            if len(self.typing_times) >= LE_SE_IRD_TYPING_TRESHOLD and self.counter_done and not self.responded:
                 await self.channel.send(f"{self.user.mention} le se írd teszt")
                 self.responded = True
     
@@ -70,6 +70,6 @@ class Leseird(commands.Cog):
     async def cleanup_typing_states(self):
         stay = []
         for type_state in self.type_states:
-            if (len(type_state.typing_times) != 0 and type_state.typing_times[-1] > datetime.now(timezone.utc) - timedelta(minutes=5)):
+            if len(type_state.typing_times) != 0 and type_state.typing_times[-1] > datetime.now(timezone.utc) - timedelta(minutes=5):
                 stay.append(type_state)        
         self.type_states = stay

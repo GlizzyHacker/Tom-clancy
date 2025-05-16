@@ -12,7 +12,7 @@ class Ping(commands.Cog):
     def cog_unload(self):
         self.updateServerStatus.cancel()
 
-    @tasks.loop(minutes=2)
+    @tasks.loop(minutes=10)
     async def updateServerStatus(self):
         if (ping(server_address)):
             await self.bot.change_presence(activity=discord.Game("Minecraft szerver fut"))

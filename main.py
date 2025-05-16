@@ -3,11 +3,13 @@ import random
 from datetime import datetime, timezone, timedelta
 import discord
 from discord.ext import commands
-import words
-import ping
 import os
-import handler
 from dotenv import load_dotenv
+
+import ping
+import leseird
+import words
+import handler
 
 load_dotenv()
 
@@ -186,13 +188,6 @@ async def ghostping_command(interaction, target: discord.Member):
     await ghostwebhook.delete()
 
 @bot.event
-async def on_ready():
-    await bot.add_cog(ping.Ping(bot))
-    await bot.tree.sync()
-    print(f"We have logged in as {bot.user}")
-
-
-@bot.event
 async def on_message(message):
     global REACTION_USER_ID
     global REACTION_EMOJI_ID
@@ -237,16 +232,11 @@ async def on_voice_state_update(member, before, after):
         await member.move_to(None)
         
 @bot.event
-async def on_typing(channel, user, when):
-    await asyncio.sleep(15)
-    if not (await did_send_message_after(channel, user, when)):
-        await channel.send(f"{user.mention} le se írd")
-
-async def did_send_message_after(channel, user, after):
-    async for message in channel.history(after=after):
-        if message.author == user:
-            return True
-    return False
+async def on_ready():
+    await bot.add_cog(ping.Ping(bot))
+    await bot.add_cog(leseird.Leseird(bot))
+    await bot.tree.sync()
+    print(f"We have logged in as {bot.user}")
 
 if __name__ == "__main__":
     handler.setup_handler()

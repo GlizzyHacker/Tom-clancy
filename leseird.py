@@ -28,7 +28,7 @@ class UserTypingState:
     
     async def try_respond(self):
             if len(self.typing_times) >= LE_SE_IRD_TYPING_TRESHOLD and self.counter_done and not self.responded:
-                await self.channel.send(f"{self.user.mention} le se írd teszt")
+                await self.channel.send(f"{self.user.mention} le se írd")
                 self.responded = True
     
     def __eq__(self, value):

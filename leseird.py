@@ -38,7 +38,6 @@ class UserTypingState:
 class Leseird(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
-        #ID : NUMBER OF TYPING EVENTS
         self.type_states = []
 
         self.cleanup_typing_states.start()
@@ -53,7 +52,7 @@ class Leseird(commands.Cog):
             if (user.id, channel) == state:
                 type_state = state
                 found = True
-        if (not found):
+        if not found:
             type_state = UserTypingState(user, channel)
             self.type_states.append(type_state)
         await type_state.typed(when)
@@ -64,6 +63,7 @@ class Leseird(commands.Cog):
             return
         for state in self.type_states:
             if (message.author.id, message.channel) == state:
+                state.responded = True
                 self.type_states.remove((message.author.id, message.channel))
 
     @tasks.loop(minutes=10)

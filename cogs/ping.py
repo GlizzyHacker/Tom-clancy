@@ -14,7 +14,7 @@ class Ping(commands.Cog):
 
     @tasks.loop(minutes=10)
     async def updateServerStatus(self):
-        if (ping(server_address)):
+        if ping(server_address):
             await self.bot.change_presence(activity=discord.Game("Minecraft szerver fut"))
         else:
             await self.bot.change_presence(status=None, activity=None)

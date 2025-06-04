@@ -9,10 +9,10 @@ async def add_all_cogs(bot):
     await bot.add_cog(react.React(bot))
     await bot.add_cog(symouse.Symouse(bot))
     await bot.add_cog(insult.Insult(bot))
-    await bot.add_cog(balint_reacting.BalintReacting(bot))
 
     # message reaction stuff
     await bot.add_cog(leseird.Leseird(bot))
     await bot.add_cog(nemertem.Nemertem(bot))
     await bot.add_cog(faszopo.Faszopo(bot))
     await bot.add_cog(dummy_police.DummyPolice(bot))
+    await bot.add_cog(balint_reacting.BalintReacting(bot))

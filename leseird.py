@@ -2,7 +2,7 @@ import asyncio
 from discord.ext import commands, tasks
 from datetime import datetime, timedelta, timezone
 
-LE_SE_BIRDTYPING_THRESHOLD = 3
+LE_SE_IRD_TYPING_TRESHOLD = 3
 LE_SE_IRD_DELAY = 20
 
 class UserTypingState:
@@ -18,7 +18,7 @@ class UserTypingState:
         self.typing_times.append(when)
         if len(self.typing_times) == 1:
             await self.start_counter()
-        elif len(self.typing_times) >= LE_SE_BIRDTYPING_THRESHOLD:
+        elif len(self.typing_times) >= LE_SE_IRD_TYPING_TRESHOLD:
             await self.try_respond()
 
     async def start_counter(self):
@@ -27,7 +27,7 @@ class UserTypingState:
         await self.try_respond()
     
     async def try_respond(self):
-            if len(self.typing_times) >= LE_SE_BIRDTYPING_THRESHOLD and self.counter_done and not self.responded:
+            if len(self.typing_times) >= LE_SE_IRD_TYPING_TRESHOLD and self.counter_done and not self.responded:
                 await self.channel.send(f"{self.user.mention} le se írd")
                 self.responded = True
     

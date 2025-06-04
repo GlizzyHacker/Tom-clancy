@@ -19,7 +19,7 @@ class DummyPolice(commands.Cog):
         global hogykepzeljuk
 
         print(f"Deleted message: {message.content} from specimen: {message.author}")
-        message.delete()
+        await message.delete()
 
         if spam_counter > 5:
             await message.channel.send(

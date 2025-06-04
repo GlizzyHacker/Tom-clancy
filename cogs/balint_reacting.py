@@ -7,7 +7,7 @@ class BalintReacting(commands.Cog):
 
     @commands.Cog.listener()
     async def on_message(self, message):
-        if message.author != constants.REACTION_USER_ID:
+        if message.author.id != constants.REACTION_USER_ID:
             return
 
         for emoji in message.guild.emojis:

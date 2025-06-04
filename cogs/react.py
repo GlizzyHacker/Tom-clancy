@@ -28,7 +28,7 @@ class React(commands.Cog):
 
         messages = []
         added = 0
-        async for msg in interaction.channel.history(limit=None):
+        async for msg in interaction.channel.history(limit=100):
             if msg.author == target and len(msg.reactions) < reaction_limit:
                 bot_already_reacted = False
                 for reaction in msg.reactions:

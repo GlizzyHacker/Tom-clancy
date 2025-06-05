@@ -27,5 +27,5 @@ class DummyPolice(commands.Cog):
             spam_counter = 0
         else:
             await message.channel.send(
-                f"{message.author.mention} Erre a csatornára dummy fucker cuntok nem írhatnak! {spawnpeek} {hogykepzeljuk}:")
+                f"{message.author.mention} Erre a csatornára dummy fucker cuntok nem írhatnak! {spawnpeek} {hogykepzeljuk}")
             spam_counter += 1

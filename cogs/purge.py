@@ -12,12 +12,13 @@ class Purge(commands.Cog):
             return
 
         if "purge this shit" in message.content.lower():
+            await message.reply("Roger Roger")
             lol_threads = 0
             for thread in message.channel.threads:
                 if thread.name.startswith("lol"):
                     try:
                         thread.delete()
-                        await message.reply("Roger Roger")
+
                     except:
                         pass
 

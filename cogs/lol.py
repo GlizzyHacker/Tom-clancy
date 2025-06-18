@@ -51,7 +51,3 @@ class Lol(commands.Cog):
                 deleted += 1
         print(f"{deleted} lol threads deleted")
         await interaction.followup.send(f"{deleted} lol thread törölve")
-
-        async for message in interaction.channel.history(limit=100):
-            if message.content == "Roger Roger":
-                await message.delete()

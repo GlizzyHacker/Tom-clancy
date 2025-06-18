@@ -19,10 +19,10 @@ class Lol(commands.Cog):
             thread = await message.channel.create_thread(
                 name=f"lol{lol_threads+1}",
             )
-            lol_players = [constants.REACTION_USER_ID, 619855173459771402, 1252523980288692297, message.author.id]
+            lol_players = [constants.REACTION_USER_ID, 619855170459771402, 1252523980208692297, message.author.id]
             for ass in lol_players:
                 try:
                     await thread.add_user(await self.bot.fetch_user(ass))
                 except:
                     pass
-            await thread.send("<:shame:1312885404684386484>")
+            await thread.send("<:shame:1312885404604386484>")

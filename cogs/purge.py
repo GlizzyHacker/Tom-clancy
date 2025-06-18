@@ -17,8 +17,6 @@ class Purge(commands.Cog):
             for thread in message.channel.threads:
                 if thread.name.startswith("lol"):
                     try:
-                        thread.delete()
-
+                        await thread.delete()
                     except:
                         pass
-

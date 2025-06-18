@@ -1,4 +1,4 @@
-from cogs import ping, ghostping, asked, react, symouse, insult, leseird, nemertem, faszopo, dummy_police, balint_reacting, segg, egyebkent, lol
+from cogs import ping, ghostping, asked, react, symouse, insult, leseird, nemertem, faszopo, dummy_police, balint_reacting, segg, egyebkent, lol, purge
 
 async def add_all_cogs(bot):
     await bot.add_cog(ping.Ping(bot))
@@ -19,3 +19,4 @@ async def add_all_cogs(bot):
     await bot.add_cog(segg.Segg(bot))
     await bot.add_cog(egyebkent.Egyebkent(bot))
     await bot.add_cog(lol.Lol(bot))
+    await bot.add_cog(purge.Purge(bot))

@@ -19,4 +19,3 @@ async def add_all_cogs(bot):
     await bot.add_cog(segg.Segg(bot))
     await bot.add_cog(egyebkent.Egyebkent(bot))
     await bot.add_cog(lol.Lol(bot))
-    await bot.add_cog(purge.Purge(bot))

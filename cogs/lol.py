@@ -2,7 +2,7 @@ from discord.ext import commands
 import discord
 import constants
 
-lol_players = [constants.REACTION_USER_ID ,619855173459771402, 1252523980288692297]
+lol_players = [619855173459771402, 1252523980288692297]
 
 class Lol(commands.Cog):
     def __init__(self, bot):

@@ -13,4 +13,4 @@ ENV DISCORD_API_TOKEN=${discord_token}
 ENV LOG_WEBHOOK_URL=${webhook_url}
 ENV FOREVER_WEBHOOK_URL=${critical_webhook_url}
 
-CMD [ "python", "./forever.py", "\"-u ./main.py\"" ]
+CMD [ "python", "-u", "./forever.py", "\"./main.py\"" ]

@@ -9,6 +9,8 @@ LOG_WEBHOOK_URL = os.getenv("LOG_WEBHOOK_URL")
 COLORS = {"DEBUG":16777215,"INFO":65280,"WARNING":16744192,"ERROR":16711680,"CRITICAL":9109504} # Színek decimal value
 
 class DiscordHandler(logging.Handler):
+    def __init__(self, url):
+        self.url = url
     def emit(self, record):
         log = self.format(record)
         embed = {
@@ -17,7 +19,7 @@ class DiscordHandler(logging.Handler):
             "color": COLORS[record.levelname]
         }
         payload = {"embeds": [embed]}
-        requests.post(LOG_WEBHOOK_URL, json=payload)
+        requests.post(self.url, json=payload)
 
 def setup_handler():
     logger = logging.getLogger("discord")
@@ -25,7 +27,7 @@ def setup_handler():
     date_format = "%Y-%m-%d %H:%M:%S"
     formatter = logging.Formatter("[%(asctime)s] [%(levelname)s] %(message)s", date_format)
 
-    handler = DiscordHandler()
+    handler = DiscordHandler(LOG_WEBHOOK_URL)
     handler.setFormatter(formatter)
 
     logger.addHandler(handler)

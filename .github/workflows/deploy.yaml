@@ -17,6 +17,7 @@ jobs:
           build-args: | 
             discord_token=${{ secrets.DISCORD_API_KEY }}
             webhook_url=${{ secrets.WEBHOOK_URL }}
+            critical_webhook_url=${{secrets.CRITICAL_WEBHOOK_URL}}
           tags: tomclancy:${{ github.ref_name }}
           outputs: type=docker,dest=tomclancy.tar
       - uses: mdallasanta/ssh-scp-deploy@main

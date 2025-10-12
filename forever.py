@@ -1,6 +1,7 @@
 #!/usr/local/lib/python3.7
 import os
 import sys
+from threading import Timer
 import time
 import logging
 import asyncio
@@ -13,12 +14,6 @@ load_dotenv()
 FOREVER_WEBHOOK_URL = os.getenv("FOREVER_WEBHOOK_URL")
 
 delay = 2
-async def reset_delay():
-    #30 minute maximum retry interval
-    await asyncio.sleep(1800)
-    global delay
-    delay = 2
-
 filename = sys.argv[1]
 
 handler = DiscordHandler(FOREVER_WEBHOOK_URL)
@@ -29,10 +24,10 @@ while True:
     p.wait()
     
     #process exited
-    handler.emit(logging.LogRecord('forever', logging.CRITICAL, msg="Program stopped. Restarting in ${delay} seconds."))
+    handler.emit(logging.LogRecord('forever', logging.CRITICAL, "/", "0", msg=f"Program \"{filename}\" stopped. Restarting in {delay} seconds.", args = None, exc_info= None))
 
     time.sleep(delay)
 
     #binary exponential backoff
     delay *= 2
-    reset_delay()
+    delay = min(600,delay)

@@ -1,0 +1,22 @@
+{
+  // Use IntelliSense to learn about possible attributes.
+  // Hover to view descriptions of existing attributes.
+  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+  "version": "0.2.0",
+  "configurations": [
+    {
+      "name": "Tom Clancy",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "main.py",
+      "console": "integratedTerminal"
+    },
+    {
+      "name": "Tom Clancy with forever",
+      "type": "debugpy",
+      "request": "launch",
+      "program": "forever.py","args": [ "main.py"],
+      "console": "integratedTerminal"
+    }
+  ]
+}

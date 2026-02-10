@@ -2,7 +2,7 @@ import socket
 import discord
 from discord.ext import commands, tasks
 
-server_address = "84.0.203.129:25565"
+server_address = "mc.kecskemet-guessr.hu"
 
 class Ping(commands.Cog):
     def __init__(self, bot):

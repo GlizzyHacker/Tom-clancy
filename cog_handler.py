@@ -1,7 +1,7 @@
-from cogs import ping, ghostping, asked, react, symouse, insult, leseird, nemertem, faszopo, dummy_police, balint_reacting, segg, egyebkent, lol, joknler
+from cogs import ghostping, asked, minecraft, react, symouse, insult, leseird, nemertem, faszopo, dummy_police, balint_reacting, segg, egyebkent, lol, joknler
 
 async def add_all_cogs(bot):
-    await bot.add_cog(ping.Ping(bot))
+    await bot.add_cog(minecraft.Minecraft(bot))
 
     # command cogs
     await bot.add_cog(ghostping.GhostPing(bot))

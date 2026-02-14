@@ -5,7 +5,7 @@ from mcstatus import JavaServer
 
 import constants
 
-class Ping(commands.Cog):
+class Minecraft(commands.Cog):
     def __init__(self, bot):
         self.bot = bot
         self.updateServerStatus.start()

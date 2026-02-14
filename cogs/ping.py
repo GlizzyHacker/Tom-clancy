@@ -1,8 +1,9 @@
-import socket
+import logging
 import discord
 from discord.ext import commands, tasks
+from mcstatus import JavaServer
 
-server_address = "mc.kecskemet-guessr.hu"
+import constants
 
 class Ping(commands.Cog):
     def __init__(self, bot):
@@ -12,23 +13,14 @@ class Ping(commands.Cog):
     def cog_unload(self):
         self.updateServerStatus.cancel()
 
-    @tasks.loop(minutes=10)
+    @tasks.loop(minutes=5)
     async def updateServerStatus(self):
-        if (ping(server_address)):
-            await self.bot.change_presence(activity=discord.Game("Minecraft szerver fut"))
-        else:
+        try:
+            server = await JavaServer.async_lookup(constants.MC_SERVER_ADDRESS)
+            stats = await server.async_status()
+            
+            await self.bot.change_presence(activity=discord.Game(f"Minecraft\n{stats.players.online} balfasszal itt: {constants.MC_SERVER_ADDRESS}"))
+        except TimeoutError:
             await self.bot.change_presence(status=None, activity=None)
-
-def ping(host):
-    ip = host.split(":")[0]
-    port = host.split(":")[1]
-    sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-    sock.settimeout(2)                                 
-    result = sock.connect_ex((ip, int(port)))
-    isOpen = result == 0
-    sock.close()
-    return isOpen
-
-
-if __name__ == "__main__":
-    print(ping("84.0.203.129:25565"))
+        except Exception as e:
+            logging.getLogger("discord").warning(msg="Failed to query Minecraft server", exc_info= e)

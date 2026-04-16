@@ -15,25 +15,47 @@ class Lol(commands.Cog):
         )
         self.bot.tree.add_command(self.purge_command)
 
+        self.lol_command = discord.app_commands.Command(
+            name="lol",
+            description="Creates a lol thread.",
+            callback=self.lol_command
+        )
+        self.bot.tree.add_command(self.lol_command)
+        
+    def create_lol_thread(self, channel, starter):
+        lol_threads = 0
+        for thread in channel.threads:
+            if thread.name.startswith("lol"):
+                lol_threads += 1
+        thread = await channel.create_thread(
+            name=f"lol{lol_threads+1}",
+        )
+        for ass in lol_players + [starter.id]:
+            try:
+                await thread.add_user(await self.bot.fetch_user(ass))
+            except:
+                pass
+        await thread.send("<:shame:1312885404684386484>")
+
+     async def lol_command(self, interaction, channel: discord.TextChannel):
+        if interaction.user == self.bot.user:
+            return
+
+        if interaction.user.id in lol_players:
+            await interaction.response.send_message("Csináld magad lol")
+            return
+
+        await interaction.response.defer()
+        self.create_lol_thread(channel, interaction.user)
+        await interaction.followup.send("lol")
+
     @commands.Cog.listener()
     async def on_message(self, message):
         if message.author == self.bot.user or isinstance(message.channel, discord.Thread):
             return
 
         if "lol" in message.content.lower():
-            lol_threads = 0
-            for thread in message.channel.threads:
-                if thread.name.startswith("lol"):
-                    lol_threads += 1
-            thread = await message.channel.create_thread(
-                name=f"lol{lol_threads+1}",
-            )
-            for ass in lol_players + [message.author.id]:
-                try:
-                    await thread.add_user(await self.bot.fetch_user(ass))
-                except:
-                    pass
-            await thread.send("<:shame:1312885404684386484>")
+            self.create_lol_thread(message.channel, message.author)
 
     async def purge_command(self, interaction):
         if interaction.user == self.bot.user:

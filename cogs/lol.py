@@ -37,7 +37,7 @@ class Lol(commands.Cog):
                 pass
         await thread.send("<:shame:1312885404684386484>")
 
-     async def lol_command(self, interaction, channel: discord.TextChannel):
+    async def lol_command(self, interaction, channel: discord.TextChannel):
         if interaction.user == self.bot.user:
             return
 

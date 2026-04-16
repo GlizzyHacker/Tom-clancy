@@ -22,7 +22,7 @@ class Lol(commands.Cog):
         )
         self.bot.tree.add_command(self.lol_command)
         
-    def create_lol_thread(self, channel, starter):
+    async def create_lol_thread(self, channel, starter):
         lol_threads = 0
         for thread in channel.threads:
             if thread.name.startswith("lol"):

@@ -22,7 +22,7 @@ class Lol(commands.Cog):
         )
         self.bot.tree.add_command(self.lol_command)
         
-    def create_lol_thread(self, channel, starter):
+    async def create_lol_thread(self, channel, starter):
         lol_threads = 0
         for thread in channel.threads:
             if thread.name.startswith("lol"):
@@ -46,7 +46,7 @@ class Lol(commands.Cog):
             return
 
         await interaction.response.defer()
-        self.create_lol_thread(channel, interaction.user)
+        await self.create_lol_thread(channel, interaction.user)
         await interaction.followup.send("lol")
 
     @commands.Cog.listener()
@@ -55,7 +55,7 @@ class Lol(commands.Cog):
             return
 
         if "lol" in message.content.lower():
-            self.create_lol_thread(message.channel, message.author)
+            await self.create_lol_thread(message.channel, message.author)
 
     async def purge_command(self, interaction):
         if interaction.user == self.bot.user:

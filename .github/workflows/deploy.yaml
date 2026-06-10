@@ -15,6 +15,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           build-args: | 
+            encryption_key=${{ secrets.ENCRYPTION_KEY }}
             discord_token=${{ secrets.DISCORD_API_KEY }}
             webhook_url=${{ secrets.WEBHOOK_URL }}
             critical_webhook_url=${{secrets.CRITICAL_WEBHOOK_URL}}

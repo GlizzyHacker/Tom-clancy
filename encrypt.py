@@ -8,7 +8,7 @@ load_dotenv()
 
 ENCRYPTION_KEY = os.getenv("ENCRYPTION_KEY")
 
-encrypt_hash = int(ENCRYPTION_KEY)
+encrypt_hash = int(ENCRYPTION_KEY+"1")
 
 #Implements a very simple caesar cipher that depends on the length of the word
 def encrypt(word: str):

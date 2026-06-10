@@ -12,5 +12,6 @@ ARG webhook_url
 ENV DISCORD_API_TOKEN=${discord_token}
 ENV LOG_WEBHOOK_URL=${webhook_url}
 ENV FOREVER_WEBHOOK_URL=${critical_webhook_url}
+ENV ENCRYPTION_KEY=${encryption_key}
 
 CMD [ "python", "-u", "./forever.py", "\"./main.py\"" ]

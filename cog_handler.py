@@ -1,4 +1,4 @@
-from cogs import ghostping, asked, minecraft, react, symouse, insult, leseird, nemertem, faszopo, dummy_police, balint_reacting, segg, egyebkent, lol, joknler
+from cogs import ghostping, asked, minecraft, react, symouse, insult, leseird, nemertem, faszopo, dummy_police, balint_reacting, segg, egyebkent, lol, joknler, encrypted_chat
 
 async def add_all_cogs(bot):
     await bot.add_cog(minecraft.Minecraft(bot))
@@ -9,6 +9,7 @@ async def add_all_cogs(bot):
     await bot.add_cog(react.React(bot))
     await bot.add_cog(symouse.Symouse(bot))
     await bot.add_cog(insult.Insult(bot))
+    await bot.add_cog(encrypted_chat.Encrypted(bot))
 
     # message reaction stuff
     await bot.add_cog(leseird.Leseird(bot))

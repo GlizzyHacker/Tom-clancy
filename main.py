@@ -27,6 +27,11 @@ async def on_ready():
     await cog_handler.add_all_cogs(bot)
     await bot.tree.sync()
     print(f"We have logged in as {bot.user}")
+    
+@bot.event
+async def setup_hook():
+    bot.tree.copy_global_to(guild=discord.Object(id=690288946487361637))
+    await bot.tree.sync(guild=discord.Object(id=690288946487361637))
 
 if __name__ == "__main__":
     log_handler.setup_handler()

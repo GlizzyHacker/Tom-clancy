@@ -59,5 +59,5 @@ def generate_response(asked: bool):
     else:
         return random.choice(not_asked_responses)
 
-if __name__ == "__main__" or __name__ == "words":
+if __name__ == "__main__":
     init_words()

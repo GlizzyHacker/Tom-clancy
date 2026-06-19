@@ -24,6 +24,6 @@ jobs:
         run: |
           docker buildx create --use
           docker buildx inspect --bootstrap
-          docker buildx build --platform linux/amd64 --push -t ${{ secrets.DOCKER_REGISTRY_URL }}/kecskemetguessr:latest -f apps/backend/Dockerfile ./apps/backend
+          docker buildx build --platform linux/amd64 --push -t ${{ secrets.DOCKER_REGISTRY_URL }}/tomclancy:latest -f ./Dockerfile ./
       - name: Logout from Docker Registry
         run: docker logout ${{ secrets.DOCKER_REGISTRY_URL }}
